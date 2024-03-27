@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Order Calculations</h1>
+    <table id="calculationsTable">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Weight (g)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamically populated -->
+        </tbody>
+    </table>
+
+    <!-- Error Popup Placeholder -->
+    <div id="errorPopup" class="modal" style="display:none;">
+        <p id="errorMessage"></p>
+        <button onclick="toggleErrorPopup(false)">Close</button>
+    </div>
+
+    <!-- Total Price Details Modal -->
+    <div id="totalPriceModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Total Price Details</h2>
+            <p id="totalPrice"></p>
+            <button onclick="toggleTotalPriceModal(false)">Close</button>
+        </div>
+    </div>
+
+    <script src="calculations.js"></script>
+</body>
+</html>

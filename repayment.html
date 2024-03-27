@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPAYMENT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <script>
+        const loggedInUser = localStorage.getItem('panda-loggedInAs');
+        if (!loggedInUser || !(loggedInUser === 'ryan.xva' || loggedInUser === 'tomas.2Qw' || loggedInUser === 'isaac.GKG')) {
+            alert("You aren't logged in or do not have access. Returning to homepage.");
+            window.location.href = 'index.html'; // Redirect to login page if not logged in or unauthorized
+        }
+    </script>    
+
+    <div class="markup-display">Markup Rate: <span id="markupRateDisplay">0%</span></div>
+
+    <h1>Repayment</h1>
+    <table id="repaymentTable">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Notes</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Items will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Markup Details Modal -->
+    <div id="markupModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h1>Markup Details</h1>
+            <p id="originalPrice">Original Price: $0</p>
+            <p id="markupAmount">Markup Added: $0 (0%)</p>
+            <p id="markupRate">Total Price: $0</p>
+            <div style="text-align: right; padding-top: 20px;">
+                <button onclick="toggleMarkupModal(false)">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Cost Estimate Modal -->
+    <div id="shippingCostModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h1>Shipping Details</h1>
+            <p id="packageWeight">Package Weight: 0g (0kg)</p>
+            <p id="initialCost">Initial Cost: $0</p>
+            <p id="additionalCost">Cost (per 100g): $0</p>
+            <p id="carrierFee">Carrier Processing Fee: $0</p>
+            <p id="operationFee">Operation Fee: $0</p>
+            <p id="shippingTotal">Shipping Total: $0</p>
+            <button onclick="toggleShippingModal(false)">Close</button>
+        </div>
+    </div>
+
+    <!-- Item Details Modal -->
+    <div id="itemDetailsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <img id="itemImage" src="" alt="Item image" style="max-width:100%;">
+            <h2 id="itemName"></h2>
+            <p id="sizeOrNotes"></p>
+            <p id="itemWeight"></p>
+            <p id="itemPrice"></p>
+            <p id="shippingCost"></p>
+            <p id="totalCost"></p>
+        </div>
+    </div>
+
+    <script src="repayment.js"></script>
+
+    <button id="goHome">HOME</button>
+
+    <style>
+        .goHome {
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+            outline:none;
+        }
+    </style>
+    
+
+    <script>
+        document.getElementById('goHome').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Adjust if your homepage has a different path
+        });
+    </script>
+</body>
+</html>

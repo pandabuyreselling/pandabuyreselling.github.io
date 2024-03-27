@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pandabuy reselling</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="homepage-content">
+        <h1>pandabuy reselling</h1>
+        <h2 id="loginStatus"><a href="#" id="loginLink">login</a></h2>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loggedInUser = localStorage.getItem('panda-loggedInAs');
+                const loginStatusElement = document.getElementById('loginStatus');
+                
+                if (loggedInUser) {
+                    loginStatusElement.innerHTML = `logged in: ${loggedInUser} (<a href="#" id="logoutLink">logout</a>)`;
+                    
+                    // Event listener for the logout process
+                    document.getElementById('logoutLink').addEventListener('click', function(event) {
+                        event.preventDefault();
+                        localStorage.removeItem('panda-loggedInAs');
+                        localStorage.removeItem('panda-isLoggedIn')
+                        // Redirect to login page or refresh to show login link again
+                        window.location.href = 'index.html';
+                    });
+                } else {
+                    loginStatusElement.innerHTML = '<a href="#" id="loginLink">login</a>';
+                }
+            });
+        </script>        
+
+        <!-- Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="loginForm" class="login-form">
+                    <div class="form-field">
+                        <label for="username">username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-field">
+                        <label for="password">password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <nav class="homepage-nav">
+            <ul>
+                <li><a href="orders.html">orders</a></li>
+                <li><a href="repayment.html">repayment</a></li>
+                <li><a href="settings.html">settings</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        // Modal control script
+        var modal = document.getElementById('loginModal');
+        var btn = document.getElementById('loginStatus');
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            modal.style.text = "CLOSE";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert('Login successful!');
+                localStorage.setItem('panda-isLoggedIn', 'true'); // Set a flag in localStorage
+                localStorage.setItem('panda-loggedInAs', username)
+                window.location.href = 'orders.html';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Login failed. Please check your credentials.');
+            });
+        });
+    </script>
+</body>
+</html>

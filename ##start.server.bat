@@ -1,0 +1,3 @@
+@echo off
+echo Starting Node.js server...
+start cmd /k "cd /d C:\Users\Senos\Desktop\# PandaReselling\web && node server.js"

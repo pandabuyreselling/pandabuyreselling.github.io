@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDERS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <script>
+        const loggedInUser = localStorage.getItem('panda-loggedInAs');
+        if (!loggedInUser || !(loggedInUser === 'ryan.xva' || loggedInUser === 'tomas.2Qw' || loggedInUser === 'isaac.GKG')) {
+            alert("You aren't logged in or do not have access. Returning to homepage.");
+            window.location.href = 'index.html'; // Redirect to login page if not logged in or unauthorized
+        }
+    </script>    
+
+    <h1>Orders</h1>
+    <button id="addOrder">+ Add Order</button>
+    <div id="ordersList"></div>
+
+    <!-- Add Order Modal -->
+    <div id="addOrderModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Add Order</h2>
+            <form id="orderForm">
+                <label for="imageInput">Image URL:</label>
+                <input type="text" id="imageInput" name="image" placeholder="Paste Image URL or Clipboard Image Here">
+
+                <div id="imagePasteArea">
+                    <img id="imageDisplay" src="" alt="Pasted Image" style="max-width: 100%; display: none;">
+                </div>
+
+                
+                <label for="descriptionInput" class="custom-font">Description:</label>
+                <textarea id="descriptionInput" name="description" placeholder="Description"></textarea>
+                
+                <label for="priceInput" class="custom-font">Price:</label>
+                <input type="number" id="priceInput" name="price" placeholder="Price">
+                
+                <label for="noteInput" class="custom-font">Additional Note:</label>
+                <textarea id="noteInput" name="note" placeholder="Note"></textarea>
+                
+                <label for="weightInput" class="custom-font">Weight: </label>
+                <input type="number" id="weightInput" name="weight" placeholder="Weight (grams)"></textarea>
+                
+                <div class="modal-footer">
+                    <button type="button" onclick="submitOrder()">Submit Order</button>
+                    <button onclick="toggleModal(false)">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button id="goHome">HOME</button>
+
+    <script>
+        document.getElementById('goHome').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Adjust if your homepage has a different path
+        });
+    </script>
+    
+
+    <script src="orders.js"></script>
+</body>
+</html>

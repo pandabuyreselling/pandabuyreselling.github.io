@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SETTINGS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="settings-container">
+        <h1>Settings</h1>
+        <div class="settings-form">
+            <label for="markupRate">Markup Rate (%):</label>
+            <input type="number" step="0.1" id="markupRate" name="markupRate" placeholder="Rate (Percent)">
+            <!-- Added fields for new settings -->
+            <label for="shippingInitCost">Initial Shipping Cost ($):</label>
+            <input type="number" step="0.01" id="shippingInitCost" placeholder="Initial Cost">
+            <label for="additionalCost">Additional Cost per 100g ($):</label>
+            <input type="number" step="0.01" id="additionalCost" placeholder="Additional Cost">
+            <label for="carrierProcFee">Carrier Processing Fee ($):</label>
+            <input type="number" step="0.01" id="carrierProcFee" placeholder="Carrier Fee">
+            <label for="operationFee">Operation Fee ($):</label>
+            <input type="number" step="0.01" id="operationFee" placeholder="Operation Fee">
+            <!-- <button id="saveSettings">Save Settings</button> -->
+        </div>
+    </div>
+
+    <button id="goHome">HOME</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (!localStorage.getItem('panda-loggedInAs') || !(localStorage.getItem('panda-loggedInAs') === 'ryan.xva')) {
+                alert("You aren't logged in or do not have access. Returning to homepage.");
+                window.location.href = 'index.html'; // Redirect to login page if not logged in or unauthorized
+            } else {
+                // Fetch and display settings from the database
+                const response = await fetch('http://localhost:3000/settings');
+                const settings = await response.json();
+                document.getElementById('markupRate').value = settings.markupRate;
+                document.getElementById('shippingInitCost').value = settings.shippingInitCost;
+                document.getElementById('additionalCost').value = settings.additionalCost;
+                document.getElementById('carrierProcFee').value = settings.carrierProcFee;
+                document.getElementById('operationFee').value = settings.operationFee;
+            }
+
+            document.getElementById('goHome').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
