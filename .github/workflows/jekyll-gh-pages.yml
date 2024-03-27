@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Jekyll and Node.js CI
 
 on:
   push:
@@ -7,21 +7,41 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  jekyll:
     runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'  # Adjust to your Jekyll site's Ruby version
+
+      - name: Build and deploy Jekyll site
+        uses: helaili/jekyll-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target_branch: 'gh-pages'  # The branch GitHub Pages deploys from
+
+  nodejs:
+    runs-on: ubuntu-latest
+    needs: jekyll  # Ensure Jekyll job completes before starting Node.js job
 
     strategy:
       matrix:
         node-version: [14.x] # or another version or set of versions you want to use
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    # Add additional steps for linting, testing, etc. For example:
-    # - run: npm run lint
-    # - run: npm test
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm ci
+      - run: npm run build --if-present
+      # Add additional steps for linting, testing, etc. For example:
+      # - run: npm run lint
+      # - run: npm test
